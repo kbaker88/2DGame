@@ -116,7 +116,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game_layer.cpp" />
-    <ClCompile Include="opengl_layer.cpp" />
+    <ClCompile Include="opengl.cpp" />
+    <ClCompile Include="render_layer.cpp" />
     <ClCompile Include="win32_layer.cpp" />
   </ItemGroup>
   <ItemGroup>

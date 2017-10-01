@@ -664,4 +664,91 @@ typedef void __stdcall gl_create_textures(GLenum target, GLsizei n, GLuint *text
 typedef void __stdcall gl_texture_storage_2d(GLuint texture, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
 typedef void __stdcall gl_texture_sub_image_2d(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels);
 
+// OpenGL 2
+extern gl_create_shader *glCreateShader;
+extern gl_shader_source *glShaderSource;
+extern gl_compile_shader *glCompileShader;
+extern gl_get_shader_iv *glGetShaderiv;
+extern gl_create_program *glCreateProgram;
+extern gl_attach_shader *glAttachShader;
+extern gl_link_program *glLinkProgram;
+extern gl_detach_shader *glDetachShader;
+extern gl_delete_shader *glDeleteShader;
+extern gl_get_shader_info_log *glGetShaderInfoLog;
+extern gl_get_program_iv *glGetProgramiv;
+extern gl_use_program *glUseProgram;
+extern gl_get_uniform_location *glGetUniformLocation;
+extern gl_uniform_1i *glUniform1i;
+extern gl_uniform_2i *glUniform2i;
+extern gl_uniform_3i *glUniform3i;
+extern gl_uniform_4i *glUniform4i;
+extern gl_uniform_1iv *glUniform1iv;
+extern gl_uniform_2iv *glUniform2iv;
+extern gl_uniform_3iv *glUniform3iv;
+extern gl_uniform_4iv *glUniform4iv;
+extern gl_uniform_1ui *glUniform1ui;
+extern gl_uniform_2ui *glUniform2ui;
+extern gl_uniform_3ui *glUniform3ui;
+extern gl_uniform_4ui *glUniform4ui;
+extern gl_uniform_1uiv *glUniform1uiv;
+extern gl_uniform_2uiv *glUniform2uiv;
+extern gl_uniform_3uiv *glUniform3uiv;
+extern gl_uniform_4uiv *glUniform4uiv;
+extern gl_uniform_1f *glUniform1f;
+extern gl_uniform_2f *glUniform2f;
+extern gl_uniform_3f *glUniform3f;
+extern gl_uniform_4f *glUniform4f;
+extern gl_uniform_1fv *glUniform1fv;
+extern gl_uniform_2fv *glUniform2fv;
+extern gl_uniform_3fv *glUniform3fv;
+extern gl_uniform_4fv *glUniform4fv;
+extern gl_uniform_matrix_2fv *glUniformMatrix2fv;
+extern gl_uniform_matrix_3fv *glUniformMatrix3fv;
+extern gl_uniform_matrix_4fv *glUniformMatrix4fv;
+extern gl_uniform_matrix_2x3fv *glUniformMatrix2x3fv;
+extern gl_uniform_matrix_3x2fv *glUniformMatrix3x2fv;
+extern gl_uniform_matrix_2x4fv *glUniformMatrix2x4fv;
+extern gl_uniform_matrix_4x2fv *glUniformMatrix4x2fv;
+extern gl_uniform_matrix_3x4fv *glUniformMatrix3x4fv;
+extern gl_uniform_matrix_4x3fv *glUniformMatrix4x3fv;
+extern gl_delete_program *glDeleteProgram;
+extern gl_gen_buffers *glGenBuffers;
+extern gl_bind_buffer *glBindBuffer;
+extern gl_buffer_data *glBufferData;
+extern gl_enable_vertex_attrib_array *glEnableVertexAttribArray;
+extern gl_disable_vertex_attrib_array *glDisableVertexAttribArray;
+extern gl_delete_buffers *glDeleteBuffers;
+extern gl_unmap_buffer *glUnmapBuffer;
+extern gl_get_program_info_log *glGetProgramInfoLog;
+extern gl_vertex_attrib_pointer *glVertexAttribPointer;
+extern gl_get_attrib_location *glGetAttribLocation;
+
+// OpenGL 3
+extern gl_gen_vertex_arrays *glGenVertexArrays;
+extern gl_bind_vertex_array *glBindVertexArray;
+extern gl_delete_vertex_arrays *glDeleteVertexArrays;
+extern gl_map_buffer_range *glMapBufferRange;
+extern gl_clear_buffer_fv* glClearBufferfv;
+
+// OpenGL 4.2
+extern gl_tex_storage_2d *glTexStorage2D;
+
+// OpenGL 4.3
+extern gl_bind_vertex_buffer *glBindVertexBuffer;
+extern gl_vertex_attrib_format *glVertexAttribFormat;
+extern gl_vertex_attrib_binding *glVertexAttribBinding;
+
+// OpenGL 4.5
+extern gl_create_vertex_arrays* glCreateVertexArrays;
+extern gl_named_buffer_storage* glNamedBufferStorage;
+extern gl_enable_vertex_array_attrib* glEnableVertexArrayAttrib;
+extern gl_disable_vertex_array_attrib* glDisableVertexArrayAttrib;
+extern gl_vertex_array_vertex_buffer* glVertexArrayVertexBuffer;
+extern gl_vertex_array_attrib_binding* glVertexArrayAttribBinding;
+extern gl_vertex_array_attrib_ib_format* glVertexArrayAttribFormat;
+extern gl_create_buffers* glCreateBuffers;
+extern gl_create_textures* glCreateTextures;
+extern gl_texture_storage_2d* glTextureStorage2D;
+extern gl_texture_sub_image_2d* glTextureSubImage2D;
+
 #endif

@@ -21,7 +21,10 @@
     <ClCompile Include="game_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="opengl_layer.cpp">
+    <ClCompile Include="opengl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="render_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
