@@ -277,6 +277,15 @@ Platform_Loop()
 }
 
 void
+Platform_ConsoleOutput(char* Text)
+{
+	// NOTE: Beware of buffer overflow potential.
+	//char Buffer[256];
+	//wsprintf(Buffer, Text);
+	OutputDebugStringA(Text);
+}
+
+void
 Platform_Cleanup()
 {
 	wglMakeCurrent(0, 0);

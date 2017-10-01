@@ -17,6 +17,8 @@ Platform_ShowWindow();
 int32
 Platform_Loop();
 void
+Platform_ConsoleOutput(char* Text);
+void
 Platform_Cleanup();
 
 

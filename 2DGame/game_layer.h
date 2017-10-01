@@ -5,6 +5,8 @@
 
 int32 
 Game_Main();
+void
+Game_Initialization();
 void 
 Game_Loop();
 
