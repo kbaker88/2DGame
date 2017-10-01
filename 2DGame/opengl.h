@@ -634,6 +634,7 @@ typedef GLboolean __stdcall gl_unmap_buffer(GLenum target);
 typedef void __stdcall gl_disable_vertex_attrib_array(GLuint index);
 typedef void __stdcall gl_get_program_info_log(GLuint program, GLsizei maxLength, GLsizei *length, char *infoLog);
 typedef void __stdcall gl_vertex_attrib_pointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *pointer);
+typedef GLint __stdcall gl_get_attrib_location(GLuint program, const char *name);
 
 // OpenGL 3
 typedef void __stdcall gl_gen_vertex_arrays(GLsizei n, GLuint *arrays);

@@ -9,8 +9,6 @@ Game_Main()
 	Platform_Initialize(WindowWidth, WindowHeight);
 	Platform_InitRenderer();
 
-	glViewport(0, 0, WindowWidth, WindowHeight);
-
 	Render_Initialize();
 	Platform_ShowWindow();
 
@@ -34,8 +32,5 @@ Game_Initialization()
 void
 Game_Loop()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	Render_PracticeDraw();
 }

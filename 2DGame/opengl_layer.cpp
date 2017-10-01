@@ -57,6 +57,7 @@ static gl_delete_buffers *glDeleteBuffers;
 static gl_unmap_buffer *glUnmapBuffer;
 static gl_get_program_info_log *glGetProgramInfoLog;
 static gl_vertex_attrib_pointer *glVertexAttribPointer;
+static gl_get_attrib_location *glGetAttribLocation;
 
 // OpenGL 3
 static gl_gen_vertex_arrays *glGenVertexArrays;
@@ -148,6 +149,7 @@ Render_Initialize()
 	glUnmapBuffer = (gl_unmap_buffer*)wglGetProcAddress("glUnmapBuffer");
 	glGetProgramInfoLog = (gl_get_program_info_log*)wglGetProcAddress("glGetProgramInfoLog");
 	glVertexAttribPointer = (gl_vertex_attrib_pointer*)wglGetProcAddress("glVertexAttribPointer");
+	glGetAttribLocation = (gl_get_attrib_location*)wglGetProcAddress("glGetAttribLocation");
 
 	// OpenGL 3
 	glGenVertexArrays = (gl_gen_vertex_arrays *)wglGetProcAddress("glGenVertexArrays");
@@ -178,13 +180,15 @@ Render_Initialize()
 	glTextureSubImage2D = (gl_texture_sub_image_2d *)wglGetProcAddress("glTextureSubImage2D");
 }
 
-static uint32 ShaderProgram;
-static uint32 VertexBufferObject;
-static uint32 VertexArrayObject;
+static uint32 ShaderProgram = 0;
+static uint32 VertexBufferObject = 0;
+static uint32 VertexArrayObject = 0;
 
 void
 Render_Practice()
 {
+	glViewport(0, 0, 1200, 800);
+
 	uint32 VertexShader;
 	VertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -219,7 +223,6 @@ Render_Practice()
 	}
 #endif
 
-	//uint32 ShaderProgram;
 	ShaderProgram = glCreateProgram();
 
 	glAttachShader(ShaderProgram, VertexShader);
@@ -248,40 +251,59 @@ Render_Practice()
 	glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &ErrorCheck);
 	if (!ErrorCheck)
 	{
-		glGetProgramInfoLog(FragmentShader, BufferSize, 0, ErrorCharBuffer);
+		glGetProgramInfoLog(ShaderProgram, BufferSize, 0, ErrorCharBuffer);
 		Platform_ConsoleOutput(ErrorCharBuffer);
 	}
 #endif
 
-	glUseProgram(ShaderProgram);
-
+	glDetachShader(ShaderProgram, VertexShader);
+	glDetachShader(ShaderProgram, FragmentShader);
 	glDeleteShader(VertexShader);
 	glDeleteShader(FragmentShader);
 	
-	float Vertices[] = {
+	GLfloat Vertices[] = {
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
 		0.0f, 0.5f, 0.0f
 	};
 
-	glGenVertexArrays(1, &VertexArrayObject);
+	glPointSize(10.0f);
+
 	glGenBuffers(1, &VertexBufferObject);
-	
-	glBindVertexArray(VertexArrayObject);
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glBindVertexArray(0);
-	//glUseProgram(ShaderProgram);
 
+	glGenVertexArrays(1, &VertexArrayObject);
+	glBindVertexArray(VertexArrayObject);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 }
 
 void
 Render_PracticeDraw()
 {
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+#if DEBUG_MODE
+	GLint status;
+	glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &status);
+	if (status == GL_FALSE)
+	{
+		Platform_ConsoleOutput("Error in compiling the ShaderProgramHandle\n");
+	}
+	else
+	{
+		glUseProgram(ShaderProgram);
+	}
+#else
 	glUseProgram(ShaderProgram);
+#endif
+
 	glBindVertexArray(VertexArrayObject);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
@@ -289,6 +311,8 @@ Render_PracticeDraw()
 void
 Render_PracticeCleanup()
 {
+	glUseProgram(0);
+	glDeleteProgram(ShaderProgram);
 	glDeleteVertexArrays(1, &VertexArrayObject);
 	glDeleteBuffers(1, &VertexBufferObject);
 }
