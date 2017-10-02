@@ -101,8 +101,6 @@ Render_Practice()
 		0.0f, 0.5f, 0.0f
 	};
 
-	glPointSize(10.0f);
-
 	glGenBuffers(1, &VertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
@@ -110,7 +108,6 @@ Render_Practice()
 	glGenVertexArrays(1, &VertexArrayObject);
 	glBindVertexArray(VertexArrayObject);
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -140,6 +137,7 @@ Render_PracticeDraw()
 
 	glBindVertexArray(VertexArrayObject);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexArray(0);
 }
 
 void
