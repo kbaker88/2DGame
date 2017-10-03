@@ -24,7 +24,7 @@ BMP_ExtractImageData(unsigned char* DataInput, unsigned char* DataOutput,
 
 		DataOutput = new uint8[ImageArea * BytesPerPixel];
 
-		for (int Index = 0;
+		for (uint32 Index = 0;
 			Index < ImageArea;
 			Index += 3)
 		{
