@@ -1,3 +1,4 @@
-﻿  render_layer.cpp
+﻿  bmp.cpp
+c:\users\kevin\documents\github\2dgame\2dgame\bmp.cpp(28): warning C4018: '<': signed/unsigned mismatch
   2DGame.vcxproj -> C:\Users\Kevin\Documents\GitHub\2DGame\x64\Debug\2DGame.exe
   2DGame.vcxproj -> C:\Users\Kevin\Documents\GitHub\2DGame\x64\Debug\2DGame.pdb (Partial PDB)

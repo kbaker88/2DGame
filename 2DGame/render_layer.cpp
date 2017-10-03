@@ -92,26 +92,59 @@ Render_Practice()
 	glDeleteShader(FragmentShader);
 	
 	/***************
-	 TRIANGLE SETUP
+	 RECTANGLE SETUP
 	****************/
+
+	uint32 ImageWidth = 0;
+	uint32 ImageHeight = 0;
+	uint8* ImageData = 0;
+	uint8* FileData = Platform_ReadFile("images/test_image.bmp");
+	BMP_ExtractImageData(FileData, ImageData, &ImageWidth, &ImageHeight);
+	delete[] FileData;
+	delete[] ImageData;
 
 	GLfloat Vertices[] = {
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f
+		0.5f, 0.5f, 0.0f, 
+
+		0.5f, 0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f
 	};
 
-	glGenBuffers(1, &VertexBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+	glCreateBuffers(1, &VertexBufferObject);
+	glNamedBufferStorage(VertexBufferObject, sizeof(Vertices), Vertices, 0);
 
-	glGenVertexArrays(1, &VertexArrayObject);
-	glBindVertexArray(VertexArrayObject);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glCreateVertexArrays(1, &VertexArrayObject);
+	glVertexArrayVertexBuffer(VertexBufferObject, 0, VertexBufferObject,
+		0, sizeof(float) * 3);
+	glVertexArrayAttribFormat(VertexBufferObject, 0, 3, GL_FLOAT, GL_FALSE,
+		0);
+	glVertexArrayAttribBinding(VertexArrayObject, 0, 0);
+	glEnableVertexArrayAttrib(VertexArrayObject, 0);
+
+	/*****************
+		  OLD CODE
+	******************/
+
+	//GLfloat Vertices[] = {
+	//	-0.5f, -0.5f, 0.0f,
+	//	0.5f, -0.5f, 0.0f,
+	//	0.0f, 0.5f, 0.0f
+	//};
+
+	//glGenBuffers(1, &VertexBufferObject);
+	//glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+
+	//glGenVertexArrays(1, &VertexArrayObject);
+	//glBindVertexArray(VertexArrayObject);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindVertexArray(0);
 }
 
 void
@@ -136,7 +169,7 @@ Render_PracticeDraw()
 #endif
 
 	glBindVertexArray(VertexArrayObject);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
 

@@ -7,6 +7,7 @@
 #include "platform_layer.h"
 #include "opengl.h"
 #include "shaders.h"
+#include "bmp.h"
 
 void
 Render_Initialize();

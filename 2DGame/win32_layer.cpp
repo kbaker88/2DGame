@@ -1,5 +1,7 @@
 #include "game_layer.h"
 
+#include <sys/stat.h>  
+
 static HINSTANCE Instance;
 static HWND Window;
 static HDC DeviceContext;
@@ -280,9 +282,36 @@ void
 Platform_ConsoleOutput(char* Text)
 {
 	// NOTE: Beware of buffer overflow potential.
-	//char Buffer[256];
-	//wsprintf(Buffer, Text);
 	OutputDebugStringA(Text);
+}
+
+int8
+Platform_DoesFileExist(char* FileName)
+{
+	if (GetFileAttributes(FileName) == INVALID_FILE_ATTRIBUTES)
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+unsigned char*
+Platform_ReadFile(char* FileName)
+{
+	HANDLE ImageFile;
+	ImageFile = CreateFile(FileName, GENERIC_READ, FILE_SHARE_READ, 0,
+		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	DWORD FileSize = GetFileSize(ImageFile, 0);
+
+	uint8* Buffer = new uint8[FileSize]{};
+
+	LPDWORD BytesRead = 0;
+	ReadFile(ImageFile, (LPVOID)Buffer, FileSize, BytesRead, 0);
+	CloseHandle(ImageFile);
+	return Buffer;
 }
 
 void
