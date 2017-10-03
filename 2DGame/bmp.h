@@ -4,7 +4,7 @@
 #include "platform_layer.h"
 
 void
-BMP_ExtractImageData(unsigned char* DataInput, unsigned char* DataOutput,
+BMP_ExtractImageData(uint8* DataInput, uint8** DataOutput,
 	uint32* ImgWidth, uint32* ImgHeight);
 
 #endif

@@ -5,7 +5,7 @@
 
 static const char* VertexShaderString =
 {
-	"#version 430 core												\n"
+	"#version 450 core												\n"
 	"																\n"
 	"layout (location = 0) in vec3 PositionData;					\n"
 	"layout (location = 1) in vec2 TextureCoord;					\n"
@@ -21,7 +21,7 @@ static const char* VertexShaderString =
 
 static const char* FragmentShaderString =
 {
-	"#version 430 core												\n"
+	"#version 450 core												\n"
 	"																\n"
 	"in vec2 TexCoord;												\n"
 	"																\n"

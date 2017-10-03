@@ -663,6 +663,8 @@ typedef void __stdcall gl_create_buffers(GLsizei n, GLuint *buffers);
 typedef void __stdcall gl_create_textures(GLenum target, GLsizei n, GLuint *textures);
 typedef void __stdcall gl_texture_storage_2d(GLuint texture, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
 typedef void __stdcall gl_texture_sub_image_2d(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels);
+typedef void __stdcall gl_texture_parameter_i(GLuint texture, GLenum pname, GLint param);
+typedef void __stdcall gl_texture_parameter_f(GLuint texture, GLenum pname, GLfloat param);
 
 // OpenGL 2
 extern gl_create_shader *glCreateShader;
@@ -750,5 +752,7 @@ extern gl_create_buffers* glCreateBuffers;
 extern gl_create_textures* glCreateTextures;
 extern gl_texture_storage_2d* glTextureStorage2D;
 extern gl_texture_sub_image_2d* glTextureSubImage2D;
+extern gl_texture_parameter_i* glTextureParameteri;
+extern gl_texture_parameter_f* glTextureParameterf;
 
 #endif

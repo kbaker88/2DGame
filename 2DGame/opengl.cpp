@@ -86,6 +86,8 @@ gl_create_buffers* glCreateBuffers;
 gl_create_textures* glCreateTextures;
 gl_texture_storage_2d* glTextureStorage2D;
 gl_texture_sub_image_2d* glTextureSubImage2D;
+gl_texture_parameter_i* glTextureParameteri;
+gl_texture_parameter_f* glTextureParameterf;
 
 void
 OpenGL_LoadFunctions()
@@ -176,4 +178,6 @@ OpenGL_LoadFunctions()
 	glCreateTextures = (gl_create_textures *)wglGetProcAddress("glCreateTextures");
 	glTextureStorage2D = (gl_texture_storage_2d *)wglGetProcAddress("glTextureStorage2D");
 	glTextureSubImage2D = (gl_texture_sub_image_2d *)wglGetProcAddress("glTextureSubImage2D");
+	glTextureParameteri = (gl_texture_parameter_i *)wglGetProcAddress("glTextureParameteri");
+	glTextureParameterf = (gl_texture_parameter_f *)wglGetProcAddress("glTextureParameterf");
 }

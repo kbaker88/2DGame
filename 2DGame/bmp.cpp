@@ -3,7 +3,7 @@
 #define WINDOWS_TYPE 40
 
 void
-BMP_ExtractImageData(unsigned char* DataInput, unsigned char* DataOutput,
+BMP_ExtractImageData(uint8* DataInput, uint8** DataOutput,
 	uint32* ImgWidth, uint32* ImgHeight)
 {
 	uint32 HeaderSize = (DataInput[14]) | (DataInput[15] << 8) |
@@ -22,17 +22,20 @@ BMP_ExtractImageData(unsigned char* DataInput, unsigned char* DataOutput,
 		uint16 BitsPerPixel = (DataInput[28]) | (DataInput[29] << 8);
 		uint8 BytesPerPixel = BitsPerPixel / 8;
 
-		DataOutput = new uint8[ImageArea * BytesPerPixel];
+		uint32 ImageSize = ImageArea * BytesPerPixel;
+
+		uint8* ImageData= new uint8[ImageSize]{};
 
 		for (uint32 Index = 0;
-			Index < ImageArea;
-			Index += 3)
+			Index < ImageSize;
+			Index += BytesPerPixel)
 		{
-			DataInput[Index + 0] = DataInput[Index + 56];
-			DataInput[Index + 1] = DataInput[Index + 55];
-			DataInput[Index + 2] = DataInput[Index + 54];
+			ImageData[Index + 0] = DataInput[Index + 56];
+			ImageData[Index + 1] = DataInput[Index + 55];
+			ImageData[Index + 2] = DataInput[Index + 54];
+			ImageData[Index + 3] = DataInput[Index + 57];
 		}
 
-		int x = 0;
+		*DataOutput = ImageData;
 	}
 }

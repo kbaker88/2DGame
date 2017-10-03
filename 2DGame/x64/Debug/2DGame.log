@@ -1,9 +1,3 @@
-﻿  win32_layer.cpp
-  Generating Code...
-  Compiling...
-  render_layer.cpp
-  opengl.cpp
-  game_layer.cpp
-  Generating Code...
-  2DGame.vcxproj -> C:\Users\kevin\Documents\GitHub\2DGame\x64\Debug\2DGame.exe
-  2DGame.vcxproj -> C:\Users\kevin\Documents\GitHub\2DGame\x64\Debug\2DGame.pdb (Partial PDB)
+﻿  render_layer.cpp
+  2DGame.vcxproj -> C:\Users\Kevin\Documents\GitHub\2DGame\x64\Debug\2DGame.exe
+  2DGame.vcxproj -> C:\Users\Kevin\Documents\GitHub\2DGame\x64\Debug\2DGame.pdb (Partial PDB)

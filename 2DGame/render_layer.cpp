@@ -3,7 +3,9 @@
 static uint32 ShaderProgram = 0;
 static uint32 VertexBufferObject[2]{};
 static uint32 VertexArrayObject = 0;
-static uint32 TextureID;
+static uint32 TextureID = 0;
+static uint32 TextureShaderPosition = 0;
+uint8* ImageData = 0;
 
 void
 Render_Initialize()
@@ -97,6 +99,7 @@ Render_Practice()
 	glDeleteShader(VertexShader);
 	glDeleteShader(FragmentShader);
 	
+	TextureShaderPosition = glGetUniformLocation(ShaderProgram, "TextureData");
 	/***************
 	 RECTANGLE SETUP
 	****************/
@@ -128,43 +131,44 @@ Render_Practice()
 		TextureCoords, 0);
 
 	glCreateVertexArrays(1, &VertexArrayObject);
-	glVertexArrayVertexBuffer(VertexBufferObject[0], 0, 
+	glVertexArrayVertexBuffer(VertexArrayObject, 0,
 		VertexBufferObject[0], 0, sizeof(float) * 3);
-	glVertexArrayAttribFormat(VertexBufferObject[0], 0, 3, GL_FLOAT, 
+	glVertexArrayAttribFormat(VertexArrayObject, 0, 3, GL_FLOAT,
 		GL_FALSE, 0);
 	glVertexArrayAttribBinding(VertexArrayObject, 0, 0);
 	glEnableVertexArrayAttrib(VertexArrayObject, 0);
 
-	glVertexArrayVertexBuffer(VertexBufferObject[1], 1,
-		VertexBufferObject[0], 0, sizeof(float) * 3);
-	glVertexArrayAttribFormat(VertexBufferObject[1], 1, 3, GL_FLOAT,
+	glVertexArrayVertexBuffer(VertexArrayObject, 1,
+		VertexBufferObject[1], 0, sizeof(float) * 2);
+	glVertexArrayAttribFormat(VertexArrayObject, 1, 2, GL_FLOAT,
 		GL_FALSE, 0);
 	glVertexArrayAttribBinding(VertexArrayObject, 1, 1);
 	glEnableVertexArrayAttrib(VertexArrayObject, 1);
 
 
-
-	glGenTextures(1, &TextureID);
-	glBindTexture(GL_TEXTURE_2D, TextureID); 
-										
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 	uint32 ImageWidth = 0;
 	uint32 ImageHeight = 0;
 	uint8* ImageData = 0;
-	uint8* FileData = Platform_ReadFile("images/test_image.bmp");
-	BMP_ExtractImageData(FileData, ImageData, &ImageWidth,
+	uint8* FileData = Platform_ReadFile("images/test_image3.bmp");
+	BMP_ExtractImageData(FileData, &ImageData, &ImageWidth,
 		&ImageHeight);
-	delete[] FileData;
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ImageWidth, ImageHeight, 0,
-		GL_RGB, GL_UNSIGNED_BYTE, ImageData);
-	//glGenerateMipmap(GL_TEXTURE_2D);
-	delete[] ImageData;
+	if (FileData)
+	{
+		delete[] FileData;
+	}
+	glCreateTextures(GL_TEXTURE_2D, 1, &TextureID);
+	
+	glTextureStorage2D(TextureID, 1, GL_RGBA8, ImageWidth,
+		ImageHeight);
+	glTextureSubImage2D(TextureID, 0, 0, 0,
+		ImageWidth, ImageHeight,
+		GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
+	
+	glTextureParameteri(TextureID, GL_TEXTURE_MIN_FILTER,
+		GL_NEAREST);
+	glTextureParameteri(TextureID, GL_TEXTURE_MAG_FILTER,
+		GL_NEAREST);
 
 	/*****************
 		  OLD CODE
@@ -210,15 +214,21 @@ Render_PracticeDraw()
 	glUseProgram(ShaderProgram);
 #endif
 
+	glUniform1i(TextureShaderPosition, 0);
 	glBindTexture(GL_TEXTURE_2D, TextureID);
 	glBindVertexArray(VertexArrayObject);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
 }
 
 void
 Render_PracticeCleanup()
 {
+	if (ImageData)
+	{
+		delete[] ImageData;
+	}
 	glUseProgram(0);
 	glDeleteProgram(ShaderProgram);
 	glDeleteVertexArrays(1, &VertexArrayObject);
