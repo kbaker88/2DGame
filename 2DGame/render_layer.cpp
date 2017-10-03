@@ -149,9 +149,20 @@ Render_Practice()
 	uint32 ImageWidth = 0;
 	uint32 ImageHeight = 0;
 	uint8* ImageData = 0;
-	uint8* FileData = Platform_ReadFile("images/test_image3.bmp");
+
+	char* ImageFileName = "images/Tree-Logo.bmp";
+
+#if DEBUG_MODE
+	if (!Platform_DoesFileExist(ImageFileName))
+	{
+		Platform_ConsoleOutput("File Not Found.\n");
+	}
+#endif
+
+	uint8 BytesPerPixel = 0;
+	uint8* FileData = Platform_ReadFile(ImageFileName);
 	BMP_ExtractImageData(FileData, &ImageData, &ImageWidth,
-		&ImageHeight);
+		&ImageHeight, &BytesPerPixel);
 
 	if (FileData)
 	{
@@ -159,11 +170,22 @@ Render_Practice()
 	}
 	glCreateTextures(GL_TEXTURE_2D, 1, &TextureID);
 	
-	glTextureStorage2D(TextureID, 1, GL_RGBA8, ImageWidth,
-		ImageHeight);
-	glTextureSubImage2D(TextureID, 0, 0, 0,
-		ImageWidth, ImageHeight,
-		GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
+	if (BytesPerPixel == 3)
+	{
+		glTextureStorage2D(TextureID, 1, GL_RGB8, ImageWidth,
+			ImageHeight);
+		glTextureSubImage2D(TextureID, 0, 0, 0,
+			ImageWidth, ImageHeight,
+			GL_RGB, GL_UNSIGNED_BYTE, ImageData);
+	}
+	else if (BytesPerPixel == 4)
+	{
+		glTextureStorage2D(TextureID, 1, GL_RGBA8, ImageWidth,
+			ImageHeight);
+		glTextureSubImage2D(TextureID, 0, 0, 0,
+			ImageWidth, ImageHeight,
+			GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
+	}
 	
 	glTextureParameteri(TextureID, GL_TEXTURE_MIN_FILTER,
 		GL_NEAREST);

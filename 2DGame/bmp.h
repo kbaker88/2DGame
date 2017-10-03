@@ -5,6 +5,6 @@
 
 void
 BMP_ExtractImageData(uint8* DataInput, uint8** DataOutput,
-	uint32* ImgWidth, uint32* ImgHeight);
+	uint32* ImgWidth, uint32* ImgHeight, uint8* BytesPerPixel);
 
 #endif
