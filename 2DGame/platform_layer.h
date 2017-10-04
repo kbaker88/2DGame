@@ -24,6 +24,10 @@ int32
 Platform_Loop();
 void
 Platform_ConsoleOutput(char* Text);
+int64
+Platform_GetCPUTimerFrequency();
+int64
+Platform_GetCPUTimer();
 int8
 Platform_DoesFileExist(char* FileName);
 unsigned char*

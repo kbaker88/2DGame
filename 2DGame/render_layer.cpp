@@ -99,7 +99,7 @@ Render_Practice()
 	glDeleteShader(VertexShader);
 	glDeleteShader(FragmentShader);
 	
-	TextureShaderPosition = glGetUniformLocation(ShaderProgram, "TextureData");
+	//TextureShaderPosition = glGetUniformLocation(ShaderProgram, "TextureData");
 	/***************
 	 RECTANGLE SETUP
 	****************/
@@ -236,7 +236,7 @@ Render_PracticeDraw()
 	glUseProgram(ShaderProgram);
 #endif
 
-	glUniform1i(TextureShaderPosition, 0);
+	//glUniform1i(TextureShaderPosition, 0);
 	glBindTexture(GL_TEXTURE_2D, TextureID);
 	glBindVertexArray(VertexArrayObject);
 	glDrawArrays(GL_TRIANGLES, 0, 6);

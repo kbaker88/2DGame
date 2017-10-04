@@ -6,6 +6,7 @@ static HINSTANCE Instance;
 static HWND Window;
 static HDC DeviceContext;
 static int32 CommandShow;
+static int64 TimerFrequency;
 
 int32 WINAPI
 WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
@@ -283,6 +284,49 @@ Platform_ConsoleOutput(char* Text)
 {
 	// NOTE: Beware of buffer overflow potential.
 	OutputDebugStringA(Text);
+}
+
+int64
+Platform_GetCPUTimerFrequency()
+{
+	if (TimerFrequency == 0)
+	{
+		LARGE_INTEGER Frequency;
+#if DEBUG_MODE
+		if (!QueryPerformanceFrequency(&Frequency))
+		{
+			// TODO: Error
+			MessageBox(0, "Obtaining Timer Frequency Failed!",
+				"Error!", MB_ICONEXCLAMATION | MB_OK);
+		}
+#else
+		QueryPerformanceFrequency(&Frequency);
+#endif
+		TimerFrequency = Frequency.QuadPart;
+		return TimerFrequency;
+	}
+	else
+	{
+		return TimerFrequency;
+	}
+}
+
+int64
+Platform_GetCPUTimer()
+{
+	LARGE_INTEGER Time;
+#if DEBUG_MODE
+	if (!QueryPerformanceCounter(&Time))
+	{
+		// TODO: Error
+		MessageBox(0, "QueryPerformanceCounter Failed!",
+			"Error!",
+			MB_ICONEXCLAMATION | MB_OK);
+	}
+#else
+	QueryPerformanceCounter(&Time);
+#endif
+	return Time.QuadPart;
 }
 
 int8
