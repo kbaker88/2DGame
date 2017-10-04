@@ -15,7 +15,12 @@ void
 OpenGL_LoadFunctions();
 
 void
-Render_Practice();
+Render_CompileShaders();
+void
+Render_CreateRectangle();
+void
+Render_CreateTexture();
+
 void
 Render_PracticeDraw();
 void

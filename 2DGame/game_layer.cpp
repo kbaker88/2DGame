@@ -26,7 +26,9 @@ Game_Main()
 void
 Game_Initialization()
 {
-	Render_Practice();
+	Render_CompileShaders();
+	Render_CreateRectangle();
+	Render_CreateTexture();
 }
 
 void

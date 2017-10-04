@@ -635,6 +635,7 @@ typedef void __stdcall gl_disable_vertex_attrib_array(GLuint index);
 typedef void __stdcall gl_get_program_info_log(GLuint program, GLsizei maxLength, GLsizei *length, char *infoLog);
 typedef void __stdcall gl_vertex_attrib_pointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *pointer);
 typedef GLint __stdcall gl_get_attrib_location(GLuint program, const char *name);
+typedef void __stdcall gl_active_texture(GLenum texture);
 
 // OpenGL 3
 typedef void __stdcall gl_gen_vertex_arrays(GLsizei n, GLuint *arrays);
@@ -651,6 +652,9 @@ typedef void __stdcall gl_bind_vertex_buffer(GLuint bindingindex, GLuint buffer,
 typedef void __stdcall gl_vertex_attrib_format(GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
 typedef void __stdcall gl_vertex_attrib_binding(GLuint attribindex, GLuint bindingindex);
 
+// OpenGL 4.4
+typedef void __stdcall gl_bind_textures(GLuint first, GLsizei count, const GLuint* textures);
+
 // OpenGL 4.5
 typedef void __stdcall gl_create_vertex_arrays(GLsizei n, GLuint* arrays);
 typedef void __stdcall gl_named_buffer_storage(GLuint buffer, GLsizei size, const void* data, GLbitfield flags);
@@ -665,6 +669,7 @@ typedef void __stdcall gl_texture_storage_2d(GLuint texture, GLsizei levels, GLe
 typedef void __stdcall gl_texture_sub_image_2d(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* pixels);
 typedef void __stdcall gl_texture_parameter_i(GLuint texture, GLenum pname, GLint param);
 typedef void __stdcall gl_texture_parameter_f(GLuint texture, GLenum pname, GLfloat param);
+typedef void __stdcall gl_bind_texture_unit(GLuint unit, GLuint texture);
 
 // OpenGL 2
 extern gl_create_shader *glCreateShader;
@@ -724,6 +729,7 @@ extern gl_unmap_buffer *glUnmapBuffer;
 extern gl_get_program_info_log *glGetProgramInfoLog;
 extern gl_vertex_attrib_pointer *glVertexAttribPointer;
 extern gl_get_attrib_location *glGetAttribLocation;
+extern gl_active_texture* glActiveTexture;
 
 // OpenGL 3
 extern gl_gen_vertex_arrays *glGenVertexArrays;
@@ -740,6 +746,9 @@ extern gl_bind_vertex_buffer *glBindVertexBuffer;
 extern gl_vertex_attrib_format *glVertexAttribFormat;
 extern gl_vertex_attrib_binding *glVertexAttribBinding;
 
+// OpenGL 4.4
+extern gl_bind_textures* glBindTextures;
+
 // OpenGL 4.5
 extern gl_create_vertex_arrays* glCreateVertexArrays;
 extern gl_named_buffer_storage* glNamedBufferStorage;
@@ -754,5 +763,6 @@ extern gl_texture_storage_2d* glTextureStorage2D;
 extern gl_texture_sub_image_2d* glTextureSubImage2D;
 extern gl_texture_parameter_i* glTextureParameteri;
 extern gl_texture_parameter_f* glTextureParameterf;
+extern gl_bind_texture_unit* glBindTextureUnit;
 
 #endif

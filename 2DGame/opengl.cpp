@@ -58,6 +58,7 @@ gl_unmap_buffer *glUnmapBuffer;
 gl_get_program_info_log *glGetProgramInfoLog;
 gl_vertex_attrib_pointer *glVertexAttribPointer;
 gl_get_attrib_location *glGetAttribLocation;
+gl_active_texture* glActiveTexture;
 
 // OpenGL 3
 gl_gen_vertex_arrays *glGenVertexArrays;
@@ -74,6 +75,9 @@ gl_bind_vertex_buffer *glBindVertexBuffer;
 gl_vertex_attrib_format *glVertexAttribFormat;
 gl_vertex_attrib_binding *glVertexAttribBinding;
 
+// OpenGL 4.4
+gl_bind_textures* glBindTextures;
+
 // OpenGL 4.5
 gl_create_vertex_arrays* glCreateVertexArrays;
 gl_named_buffer_storage* glNamedBufferStorage;
@@ -88,6 +92,7 @@ gl_texture_storage_2d* glTextureStorage2D;
 gl_texture_sub_image_2d* glTextureSubImage2D;
 gl_texture_parameter_i* glTextureParameteri;
 gl_texture_parameter_f* glTextureParameterf;
+gl_bind_texture_unit* glBindTextureUnit;
 
 void
 OpenGL_LoadFunctions()
@@ -146,10 +151,11 @@ OpenGL_LoadFunctions()
 	glEnableVertexAttribArray = (gl_enable_vertex_attrib_array *)wglGetProcAddress("glEnableVertexAttribArray");
 	glDisableVertexAttribArray = (gl_disable_vertex_attrib_array *)wglGetProcAddress("glDisableVertexAttribArray");
 	glDeleteBuffers = (gl_delete_buffers *)wglGetProcAddress("glDeleteBuffers");
-	glUnmapBuffer = (gl_unmap_buffer*)wglGetProcAddress("glUnmapBuffer");
-	glGetProgramInfoLog = (gl_get_program_info_log*)wglGetProcAddress("glGetProgramInfoLog");
-	glVertexAttribPointer = (gl_vertex_attrib_pointer*)wglGetProcAddress("glVertexAttribPointer");
-	glGetAttribLocation = (gl_get_attrib_location*)wglGetProcAddress("glGetAttribLocation");
+	glUnmapBuffer = (gl_unmap_buffer *)wglGetProcAddress("glUnmapBuffer");
+	glGetProgramInfoLog = (gl_get_program_info_log *)wglGetProcAddress("glGetProgramInfoLog");
+	glVertexAttribPointer = (gl_vertex_attrib_pointer *)wglGetProcAddress("glVertexAttribPointer");
+	glGetAttribLocation = (gl_get_attrib_location *)wglGetProcAddress("glGetAttribLocation");
+	glActiveTexture = (gl_active_texture *)wglGetProcAddress("glActiveTexture");
 
 	// OpenGL 3
 	glGenVertexArrays = (gl_gen_vertex_arrays *)wglGetProcAddress("glGenVertexArrays");
@@ -166,6 +172,9 @@ OpenGL_LoadFunctions()
 	glVertexAttribFormat = (gl_vertex_attrib_format *)wglGetProcAddress("glVertexAttribFormat");
 	glVertexAttribBinding = (gl_vertex_attrib_binding *)wglGetProcAddress("glVertexAttribBinding");
 
+	// OpenGL 4.4
+	glBindTextures = (gl_bind_textures *)wglGetProcAddress("glBindTextures");
+
 	// OpenGL 4.5
 	glCreateVertexArrays = (gl_create_vertex_arrays *)wglGetProcAddress("glCreateVertexArrays");
 	glNamedBufferStorage = (gl_named_buffer_storage *)wglGetProcAddress("glNamedBufferStorage");
@@ -180,4 +189,5 @@ OpenGL_LoadFunctions()
 	glTextureSubImage2D = (gl_texture_sub_image_2d *)wglGetProcAddress("glTextureSubImage2D");
 	glTextureParameteri = (gl_texture_parameter_i *)wglGetProcAddress("glTextureParameteri");
 	glTextureParameterf = (gl_texture_parameter_f *)wglGetProcAddress("glTextureParameterf");
+	glBindTextureUnit = (gl_bind_texture_unit *)wglGetProcAddress("glBindTextureUnit");
 }

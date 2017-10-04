@@ -17,11 +17,8 @@ Render_Initialize()
 }
 
 void
-Render_Practice()
+Render_CompileShaders()
 {
-	/**************
-	  SHADER SETUP
-	***************/
 	uint32 VertexShader;
 	VertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -35,7 +32,7 @@ Render_Practice()
 	glGetShaderiv(VertexShader, GL_COMPILE_STATUS, &ErrorCheck);
 	if (!ErrorCheck)
 	{
-		glGetShaderInfoLog(VertexShader, BufferSize, 0, 
+		glGetShaderInfoLog(VertexShader, BufferSize, 0,
 			ErrorCharBuffer);
 		Platform_ConsoleOutput(ErrorCharBuffer);
 	}
@@ -52,7 +49,7 @@ Render_Practice()
 	glGetShaderiv(FragmentShader, GL_COMPILE_STATUS, &ErrorCheck);
 	if (!ErrorCheck)
 	{
-		glGetShaderInfoLog(FragmentShader, BufferSize, 0, 
+		glGetShaderInfoLog(FragmentShader, BufferSize, 0,
 			ErrorCharBuffer);
 		Platform_ConsoleOutput(ErrorCharBuffer);
 	}
@@ -75,7 +72,7 @@ Render_Practice()
 	glGetProgramiv(ShaderProgram, GL_ATTACHED_SHADERS, &ErrorCheck);
 	if (ErrorCheck == GL_FALSE)
 	{
-		glGetShaderInfoLog(ShaderProgram, BufferSize, 0, 
+		glGetShaderInfoLog(ShaderProgram, BufferSize, 0,
 			ErrorCharBuffer);
 	}
 #endif
@@ -88,7 +85,7 @@ Render_Practice()
 	glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &ErrorCheck);
 	if (!ErrorCheck)
 	{
-		glGetProgramInfoLog(ShaderProgram, BufferSize, 0, 
+		glGetProgramInfoLog(ShaderProgram, BufferSize, 0,
 			ErrorCharBuffer);
 		Platform_ConsoleOutput(ErrorCharBuffer);
 	}
@@ -98,16 +95,17 @@ Render_Practice()
 	glDetachShader(ShaderProgram, FragmentShader);
 	glDeleteShader(VertexShader);
 	glDeleteShader(FragmentShader);
-	
-	//TextureShaderPosition = glGetUniformLocation(ShaderProgram, "TextureData");
-	/***************
-	 RECTANGLE SETUP
-	****************/
 
+	//TextureShaderPosition = glGetUniformLocation(ShaderProgram, "TextureData");
+}
+
+void
+Render_CreateRectangle()
+{
 	float Vertices[] = {
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f, 
+		0.5f, 0.5f, 0.0f,
 
 		0.5f, 0.5f, 0.0f,
 		-0.5f, 0.5f, 0.0f,
@@ -144,8 +142,11 @@ Render_Practice()
 		GL_FALSE, 0);
 	glVertexArrayAttribBinding(VertexArrayObject, 1, 1);
 	glEnableVertexArrayAttrib(VertexArrayObject, 1);
+}
 
-
+void
+Render_CreateTexture()
+{
 	uint32 ImageWidth = 0;
 	uint32 ImageHeight = 0;
 	uint8* ImageData = 0;
@@ -169,7 +170,7 @@ Render_Practice()
 		delete[] FileData;
 	}
 	glCreateTextures(GL_TEXTURE_2D, 1, &TextureID);
-	
+
 	if (BytesPerPixel == 3)
 	{
 		glTextureStorage2D(TextureID, 1, GL_RGB8, ImageWidth,
@@ -186,33 +187,11 @@ Render_Practice()
 			ImageWidth, ImageHeight,
 			GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
 	}
-	
+
 	glTextureParameteri(TextureID, GL_TEXTURE_MIN_FILTER,
 		GL_NEAREST);
 	glTextureParameteri(TextureID, GL_TEXTURE_MAG_FILTER,
 		GL_NEAREST);
-
-	/*****************
-		  OLD CODE
-	******************/
-
-	//GLfloat Vertices[] = {
-	//	-0.5f, -0.5f, 0.0f,
-	//	0.5f, -0.5f, 0.0f,
-	//	0.0f, 0.5f, 0.0f
-	//};
-
-	//glGenBuffers(1, &VertexBufferObject);
-	//glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-
-	//glGenVertexArrays(1, &VertexArrayObject);
-	//glBindVertexArray(VertexArrayObject);
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//glBindVertexArray(0);
 }
 
 void
@@ -237,16 +216,19 @@ Render_PracticeDraw()
 #endif
 
 	//glUniform1i(TextureShaderPosition, 0);
-	glBindTexture(GL_TEXTURE_2D, TextureID);
+	//glBindTexture(GL_TEXTURE_2D, TextureID);
+	glBindTextureUnit(0, TextureID);
 	glBindVertexArray(VertexArrayObject);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTextureUnit(0, 0);
+//	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
 }
 
 void
 Render_PracticeCleanup()
 {
+	glDeleteTextures(1, &TextureID);
 	if (ImageData)
 	{
 		delete[] ImageData;
