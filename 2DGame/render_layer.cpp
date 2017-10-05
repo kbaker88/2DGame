@@ -122,6 +122,7 @@ Render_CreateRectangle()
 		0.0f, 0.0f
 	};
 
+#if OPENGL_4_5
 	glCreateBuffers(2, VertexBufferObject);
 	glNamedBufferStorage(VertexBufferObject[0], sizeof(Vertices),
 		Vertices, 0);
@@ -142,6 +143,29 @@ Render_CreateRectangle()
 		GL_FALSE, 0);
 	glVertexArrayAttribBinding(VertexArrayObject, 1, 1);
 	glEnableVertexArrayAttrib(VertexArrayObject, 1);
+#else
+	glGenBuffers(2, VertexBufferObject);
+
+	glGenVertexArrays(1, &VertexArrayObject);
+	glBindVertexArray(VertexArrayObject);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices),
+		Vertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+		3 * sizeof(float), 0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(TextureCoords),
+		TextureCoords, GL_STATIC_DRAW);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+		2 * sizeof(float), 0);
+	glEnableVertexAttribArray(1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+#endif
 }
 
 void
@@ -169,6 +193,8 @@ Render_CreateTexture()
 	{
 		delete[] FileData;
 	}
+
+#if OPENGL_4_5
 	glCreateTextures(GL_TEXTURE_2D, 1, &TextureID);
 
 	if (BytesPerPixel == 3)
@@ -192,6 +218,34 @@ Render_CreateTexture()
 		GL_NEAREST);
 	glTextureParameteri(TextureID, GL_TEXTURE_MAG_FILTER,
 		GL_NEAREST);
+#else
+	glGenTextures(1, &TextureID);
+	glBindTexture(GL_TEXTURE_2D, TextureID);
+
+	if (BytesPerPixel == 3)
+	{
+		//glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8, ImageWidth,
+		//	ImageHeight);
+		//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0,
+		//	ImageWidth, ImageHeight,
+		//	GL_RGB, GL_UNSIGNED_BYTE, ImageData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ImageWidth, ImageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, ImageData);
+	}
+	else if (BytesPerPixel == 4)
+	{
+		glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, ImageWidth,
+			ImageHeight);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0,
+			ImageWidth, ImageHeight,
+			GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+#endif
 }
 
 void
@@ -216,13 +270,19 @@ Render_PracticeDraw()
 #endif
 
 	//glUniform1i(TextureShaderPosition, 0);
-	//glBindTexture(GL_TEXTURE_2D, TextureID);
+#if OPENGL_4_5
 	glBindTextureUnit(0, TextureID);
+#else
+	glBindTexture(GL_TEXTURE_2D, TextureID);
+#endif
 	glBindVertexArray(VertexArrayObject);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindTextureUnit(0, 0);
-//	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
+#if OPENGL_4_5
+	glBindTextureUnit(0, 0);
+#else
+	glBindTexture(GL_TEXTURE_2D, 0);
+#endif
 }
 
 void
