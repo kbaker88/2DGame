@@ -3,9 +3,10 @@
 static uint32 ShaderProgram = 0;
 static uint32 VertexBufferObject[2]{};
 static uint32 VertexArrayObject = 0;
-static uint32 TextureID = 0;
+static uint32 TextureIDs[11]{};
 static uint32 TextureShaderPosition = 0;
 uint8* ImageData = 0;
+static uint32 LoopIndex = 0;
 
 void
 Render_Initialize()
@@ -151,52 +152,65 @@ Render_CreateTexture()
 	uint32 ImageHeight = 0;
 	uint8* ImageData = 0;
 
-	char* ImageFileName = "images/Tree-Logo.bmp";
+	char* ImageFileName[11] = {"images/Simple-warrior1.bmp", "images/Simple-warrior2.bmp", 
+		"images/Simple-warrior3.bmp", "images/Simple-warrior4.bmp", "images/Simple-warrior5.bmp",
+		"images/Simple-warrior6.bmp", "images/Simple-warrior7.bmp", "images/Simple-warrior8.bmp",
+		"images/Simple-warrior9.bmp", "images/Simple-warrior10.bmp", "images/Simple-warrior11.bmp" };
+
+//	char* ImageFileName = "images/Tree-Logo.bmp";
+
+	for (uint32 Index = 0; Index < 11; Index++)
+	{
 
 #if DEBUG_MODE
-	if (!Platform_DoesFileExist(ImageFileName))
-	{
-		Platform_ConsoleOutput("File Not Found.\n");
-	}
+		if (!Platform_DoesFileExist(ImageFileName[Index]))
+		{
+			Platform_ConsoleOutput("File Not Found.\n");
+		}
 #endif
 
-	uint8 BytesPerPixel = 0;
-	uint8* FileData = Platform_ReadFile(ImageFileName);
-	BMP_ExtractImageData(FileData, &ImageData, &ImageWidth,
-		&ImageHeight, &BytesPerPixel);
+		uint8 BytesPerPixel = 0;
+		uint8* FileData = Platform_ReadFile(ImageFileName[Index]);
+		BMP_ExtractImageData(FileData, &ImageData, &ImageWidth,
+			&ImageHeight, &BytesPerPixel);
 
-	if (FileData)
-	{
-		delete[] FileData;
-	}
-	glCreateTextures(GL_TEXTURE_2D, 1, &TextureID);
+		if (FileData)
+		{
+			delete[] FileData;
+		}
+		glCreateTextures(GL_TEXTURE_2D, 1, &TextureIDs[Index]);
 
-	if (BytesPerPixel == 3)
-	{
-		glTextureStorage2D(TextureID, 1, GL_RGB8, ImageWidth,
-			ImageHeight);
-		glTextureSubImage2D(TextureID, 0, 0, 0,
-			ImageWidth, ImageHeight,
-			GL_RGB, GL_UNSIGNED_BYTE, ImageData);
-	}
-	else if (BytesPerPixel == 4)
-	{
-		glTextureStorage2D(TextureID, 1, GL_RGBA8, ImageWidth,
-			ImageHeight);
-		glTextureSubImage2D(TextureID, 0, 0, 0,
-			ImageWidth, ImageHeight,
-			GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
-	}
+		if (BytesPerPixel == 3)
+		{
+			glTextureStorage2D(TextureIDs[Index], 1, GL_RGB8, ImageWidth,
+				ImageHeight);
+			glTextureSubImage2D(TextureIDs[Index], 0, 0, 0,
+				ImageWidth, ImageHeight,
+				GL_RGB, GL_UNSIGNED_BYTE, ImageData);
+		}
+		else if (BytesPerPixel == 4)
+		{
+			glTextureStorage2D(TextureIDs[Index], 1, GL_RGBA8, ImageWidth,
+				ImageHeight);
+			glTextureSubImage2D(TextureIDs[Index], 0, 0, 0,
+				ImageWidth, ImageHeight,
+				GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
+		}
 
-	glTextureParameteri(TextureID, GL_TEXTURE_MIN_FILTER,
-		GL_NEAREST);
-	glTextureParameteri(TextureID, GL_TEXTURE_MAG_FILTER,
-		GL_NEAREST);
+		glTextureParameteri(TextureIDs[Index], GL_TEXTURE_MIN_FILTER,
+			GL_NEAREST);
+		glTextureParameteri(TextureIDs[Index], GL_TEXTURE_MAG_FILTER,
+			GL_NEAREST);
+	}
 }
 
 void
 Render_PracticeDraw()
 {
+	if (LoopIndex >= 11)
+	{
+		LoopIndex = 0;
+	}
 	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -217,18 +231,22 @@ Render_PracticeDraw()
 
 	//glUniform1i(TextureShaderPosition, 0);
 	//glBindTexture(GL_TEXTURE_2D, TextureID);
-	glBindTextureUnit(0, TextureID);
+	glBindTextureUnit(0, TextureIDs[LoopIndex]);
 	glBindVertexArray(VertexArrayObject);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindTextureUnit(0, 0);
 //	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
+	LoopIndex++;
 }
 
 void
 Render_PracticeCleanup()
 {
-	glDeleteTextures(1, &TextureID);
+	for (uint32 i = 0; i < 11; i++)
+	{
+		glDeleteTextures(1, &TextureIDs[i]);
+	}
 	if (ImageData)
 	{
 		delete[] ImageData;

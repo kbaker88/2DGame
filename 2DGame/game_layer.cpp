@@ -1,5 +1,7 @@
 #include "game_layer.h"
 
+static const float SecondsPerFrame = (30.0f / 60.0f);
+
 int32 
 Game_Main()
 {
@@ -34,5 +36,19 @@ Game_Initialization()
 void
 Game_Loop()
 {
+	int64 LastCounter = Platform_GetCPUTimer();
+
 	Render_PracticeDraw();
+
+	// NOTE: Cap at 60FPS
+	int64 CounterElapsed = Platform_GetCPUTimer() - LastCounter;
+	float SecondsElapsedForFrame = ((float)CounterElapsed /
+		(float)Platform_GetCPUTimerFrequency());
+	while (SecondsElapsedForFrame < SecondsPerFrame)
+	{
+		SecondsElapsedForFrame = ((float)(Platform_GetCPUTimer() -
+			LastCounter) / (float)Platform_GetCPUTimerFrequency());
+	}
+
+	LastCounter = Platform_GetCPUTimer();
 }
