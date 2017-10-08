@@ -4,9 +4,13 @@ static uint32 ShaderProgram = 0;
 static uint32 VertexBufferObject[2]{};
 static uint32 VertexArrayObject = 0;
 static uint32 TextureIDs[11]{};
-static uint32 TextureShaderPosition = 0;
+static uint32 ShaderUniform[4]{};
 uint8* ImageData = 0;
 static uint32 LoopIndex = 0;
+
+static m4 ViewMatrix;
+static m4 ProjectionMatrix;
+static m4 ModelMatrix;
 
 void
 Render_Initialize()
@@ -15,6 +19,13 @@ Render_Initialize()
 
 	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, 1200, 800);
+	v3 CameraPosition = v3(0.0f, 0.0f, 2.0f);
+	v3 CameraTarget = v3(0.0f, 0.0f, -1.0f);
+	v3 UpDirection = v3(0.0f, 1.0f, 0.0f);
+//	ProjectionMatrix = Math_OrthographicMarix(0.0f, 1200.0f, 0.0f, 800.0f, 0.1f, 100.0f);
+	ProjectionMatrix = Math_PerspectiveMatrix(45.0f, 1200 / 800, 0.01f, 1000.0f);
+	ViewMatrix = Math_LookAtMatrix(CameraPosition,
+		v3(0.0f, 0.0f, 0.0f), UpDirection);
 }
 
 void
@@ -97,20 +108,23 @@ Render_CompileShaders()
 	glDeleteShader(VertexShader);
 	glDeleteShader(FragmentShader);
 
-	//TextureShaderPosition = glGetUniformLocation(ShaderProgram, "TextureData");
+	ShaderUniform[0] = glGetUniformLocation(ShaderProgram, "view");
+	ShaderUniform[1] = glGetUniformLocation(ShaderProgram, "projection");
+	ShaderUniform[2] = glGetUniformLocation(ShaderProgram, "model");
+	ShaderUniform[3] = glGetUniformLocation(ShaderProgram, "TextureData");
 }
 
 void
 Render_CreateRectangle()
 {
 	float Vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f,
+		-0.1f, -0.1f, 0.0f,
+		 0.1f, -0.1f, 0.0f,
+		 0.1f,  0.1f, 0.0f,
 
-		0.5f, 0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f
+		 0.1f,  0.1f, 0.0f,
+		-0.1f,  0.1f, 0.0f,
+		-0.1f, -0.1f, 0.0f
 	};
 
 	float TextureCoords[] = {
@@ -167,6 +181,8 @@ Render_CreateRectangle()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 #endif
+	ModelMatrix = Math_TranslateMatrix(&Math_IdentityMatrix(),
+		&v3(0.0f, 0.0f, 0.0f));
 }
 
 void
@@ -287,6 +303,9 @@ Render_PracticeDraw()
 	glUseProgram(ShaderProgram);
 #endif
 
+	glUniformMatrix4fv(ShaderUniform[0], 1, 0, (float*)&ViewMatrix);
+	glUniformMatrix4fv(ShaderUniform[1], 1, 0, (float*)&ProjectionMatrix);
+	glUniformMatrix4fv(ShaderUniform[2], 1, 0, (float*)&ModelMatrix);
 	//glUniform1i(TextureShaderPosition, 0);
 
 #if OPENGL_4_5

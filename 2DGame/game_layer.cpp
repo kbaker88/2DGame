@@ -1,6 +1,6 @@
 #include "game_layer.h"
 
-static const float SecondsPerFrame = (30.0f / 60.0f);
+static const float SecondsPerFrame = (10.0f / 60.0f);
 
 int32 
 Game_Main()

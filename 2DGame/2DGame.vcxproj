@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="bmp.cpp" />
     <ClCompile Include="game_layer.cpp" />
+    <ClCompile Include="math.cpp" />
     <ClCompile Include="opengl.cpp" />
     <ClCompile Include="render_layer.cpp" />
     <ClCompile Include="win32_layer.cpp" />
@@ -124,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="bmp.h" />
     <ClInclude Include="game_layer.h" />
+    <ClInclude Include="math.h" />
     <ClInclude Include="opengl.h" />
     <ClInclude Include="render_layer.h" />
     <ClInclude Include="platform_layer.h" />
