@@ -358,6 +358,22 @@ Platform_ReadFile(char* FileName)
 	return Buffer;
 }
 
+int8
+Platform_GetStateOfKey(int key)
+{
+	int8 result = 0;
+
+	if (GetAsyncKeyState(key) & 0x8000)
+	{
+		result = 1;
+		return result;
+	}
+	else
+	{
+		return result;
+	}
+}
+
 void
 Platform_Cleanup()
 {

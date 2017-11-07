@@ -19,11 +19,13 @@ Render_Initialize()
 
 	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, 1200, 800);
-	v3 CameraPosition = v3(0.0f, 0.0f, 2.0f);
+	v3 CameraPosition = v3(0.0f, 0.0f, 1.0f);
 	v3 CameraTarget = v3(0.0f, 0.0f, -1.0f);
 	v3 UpDirection = v3(0.0f, 1.0f, 0.0f);
-//	ProjectionMatrix = Math_OrthographicMarix(0.0f, 1200.0f, 0.0f, 800.0f, 0.1f, 100.0f);
-	ProjectionMatrix = Math_PerspectiveMatrix(45.0f, 1200 / 800, 0.01f, 1000.0f);
+//	ProjectionMatrix = Math_OrthographicMarix(0.0f, 1200.0f,
+	//0.0f, 800.0f, 0.1f, 100.0f);
+	ProjectionMatrix = Math_PerspectiveMatrix(45.0f, 1200 / 800, 
+		0.01f, 1000.0f);
 	ViewMatrix = Math_LookAtMatrix(CameraPosition,
 		v3(0.0f, 0.0f, 0.0f), UpDirection);
 }
@@ -118,13 +120,13 @@ void
 Render_CreateRectangle()
 {
 	float Vertices[] = {
-		-0.1f, -0.1f, 0.0f,
-		 0.1f, -0.1f, 0.0f,
-		 0.1f,  0.1f, 0.0f,
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.5f,  0.5f, 0.0f,
 
-		 0.1f,  0.1f, 0.0f,
-		-0.1f,  0.1f, 0.0f,
-		-0.1f, -0.1f, 0.0f
+		 0.5f,  0.5f, 0.0f,
+		-0.5f,  0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f
 	};
 
 	float TextureCoords[] = {
@@ -191,19 +193,18 @@ Render_CreateTexture()
 	uint32 ImageWidth = 0;
 	uint32 ImageHeight = 0;
 	uint8* ImageData = 0;
-
-	char* ImageFileName[11] = {"images/Simple-warrior1.bmp", "images/Simple-warrior2.bmp", 
+	
+	char* ImageFileName[11] = {"images/Simple-warriorTest.bmp", "images/Simple-warrior2.bmp", 
 		"images/Simple-warrior3.bmp", "images/Simple-warrior4.bmp", "images/Simple-warrior5.bmp",
 		"images/Simple-warrior6.bmp", "images/Simple-warrior7.bmp", "images/Simple-warrior8.bmp",
 		"images/Simple-warrior9.bmp", "images/Simple-warrior10.bmp", "images/Simple-warrior11.bmp" };
 
 //	char* ImageFileName = "images/Tree-Logo.bmp";
 
-	for (uint32 Index = 0; Index < 11; Index++)
+	for (uint32 Index = 0; Index < 1; Index++)
 	{
 
-#if OPENGL_4_5
-	glCreateTextures(GL_TEXTURE_2D, 1, &TextureIDs[Index]);
+		//glCreateTextures(GL_TEXTURE_2D, 1, &TextureIDs[Index]);
 
 #if DEBUG_MODE
 		if (!Platform_DoesFileExist(ImageFileName[Index]))
@@ -221,6 +222,7 @@ Render_CreateTexture()
 		{
 			delete[] FileData;
 		}
+#if OPENGL_4_5
 		glCreateTextures(GL_TEXTURE_2D, 1, &TextureIDs[Index]);
 
 		if (BytesPerPixel == 3)
@@ -248,40 +250,42 @@ Render_CreateTexture()
 	}
 
 #else
-	glGenTextures(1, &TextureID);
-	glBindTexture(GL_TEXTURE_2D, TextureID);
+		glGenTextures(1, &TextureIDs[0]);
+		glBindTexture(GL_TEXTURE_2D, TextureIDs[0]);
 
-	if (BytesPerPixel == 3)
-	{
-		//glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8, ImageWidth,
-		//	ImageHeight);
-		//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0,
-		//	ImageWidth, ImageHeight,
-		//	GL_RGB, GL_UNSIGNED_BYTE, ImageData);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ImageWidth, ImageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, ImageData);
-	}
-	else if (BytesPerPixel == 4)
-	{
-		glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, ImageWidth,
-			ImageHeight);
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0,
-			ImageWidth, ImageHeight,
-			GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
-	}
+		if (BytesPerPixel == 3)
+		{
+			//glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8, ImageWidth,
+			//	ImageHeight);
+			//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0,
+			//	ImageWidth, ImageHeight,
+			//	GL_RGB, GL_UNSIGNED_BYTE, ImageData);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ImageWidth, ImageHeight,
+				0, GL_RGB, GL_UNSIGNED_BYTE, ImageData);
+		}
+		else if (BytesPerPixel == 4)
+		{
+			glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, ImageWidth,
+				ImageHeight);
+			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0,
+				ImageWidth, ImageHeight,
+				GL_RGBA, GL_UNSIGNED_BYTE, ImageData);
+		}
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 #endif
+	}
 
 }
 
 void
 Render_PracticeDraw()
 {
-	if (LoopIndex >= 11)
+	if (LoopIndex >= 1)
 	{
 		LoopIndex = 0;
 	}
@@ -311,7 +315,7 @@ Render_PracticeDraw()
 #if OPENGL_4_5
 	glBindTextureUnit(0, TextureIDs[LoopIndex]);
 #else
-	glBindTexture(GL_TEXTURE_2D, TextureID);
+	glBindTexture(GL_TEXTURE_2D, TextureIDs[0]);
 #endif
 
 	glBindVertexArray(VertexArrayObject);

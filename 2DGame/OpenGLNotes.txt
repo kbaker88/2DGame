@@ -1,0 +1,88 @@
+
+
+glEnable()
+
+glViewport()
+
+glCreateShader()
+glShaderSource()
+glCompileShader()
+
+glGetShaderiv()
+
+glGetShaderInfoLog()
+
+glCreateProgram()
+glAttachShader()
+
+glGetProgramiv()
+glLinkProgram()
+glGetProgramiv()
+glGetProgramInfoLog()
+
+glDetachShader()
+glDeleteShader()
+
+glGetUniformLocation()
+
+// Square
+// 4.5
+glCreateBuffers()
+glNamedBufferStorage()
+glCreateVertexArrays()
+glVertexArrayVertexBuffer()
+glVertexArrayAttribFormat()
+glVertexArrayAttribBinding()
+glEnableVertexArrayAttrib()
+
+// other
+glGenBuffers()
+glGenVertexArrays()
+glBindVertexArray()
+glBindBuffer()
+glBufferData()
+
+glVertexAttribPointer()
+glEnableVertexAttribArray()
+
+// Texture
+// 4.5
+glCreateTextures()
+glTextureStorage2D()
+glTextureSubImage2D()
+glTextureParameteri()
+
+// other
+glGenTextures()
+glBindTexture()
+glTexImage2D()
+glTexStorage2D()
+glTexSubImage2D()
+
+glTexParameteri()
+
+// render loop
+
+glClearColor()
+glClear()
+glGetProgramiv()
+glUseProgram()
+
+glUniformMatrix4fv()
+
+// 4.5
+glBindTextureUnit()
+// other
+glBindTexture()
+
+
+glBindVertexArray()
+glDrawArrays()
+
+
+// cleanup
+glDeleteTextures()
+glUseProgram()
+glDeleteProgram()
+glDeleteVertexArrays()
+glDeleteBuffers()

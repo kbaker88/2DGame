@@ -32,6 +32,8 @@ int8
 Platform_DoesFileExist(char* FileName);
 unsigned char*
 Platform_ReadFile(char* FileName);
+int8
+Platform_GetStateOfKey(int key);
 void
 Platform_Cleanup();
 

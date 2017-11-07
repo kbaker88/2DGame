@@ -57,7 +57,22 @@ BMP_ExtractImageData(uint8* DataInput, uint8** DataOutput,
 			(NumberOfColorsInPalette == 0))
 		{
 
+			uint32 RowSize = ((BitsPerPixel * *ImgWidth + 31) / 32);
+			RowSize *= 4;
+
 			uint8* ImageData = new uint8[ImageSize]{};
+			//for (uint32 Row = 0; Row < *ImgHeight; Row++)
+			//{
+			//	for (uint32 Index = 0; Index < RowSize; Index++)
+			//	{
+			//		ImageData[Index + 0] = DataInput[Index + PixelArrayOffset + 2];
+			//		ImageData[Index + 1] = DataInput[Index + PixelArrayOffset + 1];
+			//		ImageData[Index + 2] = DataInput[Index + PixelArrayOffset + 0];
+			//		//ImageData[Index + 3] = DataInput[Index + PixelArrayOffset + 3];
+			//		// NOTE: Ignore alpha byte in 32bit bmp for now since alpha is not 
+			//		// being used in bitmaps.
+			//	}
+			//}
 
 			for (uint32 Index = 0;
 				Index < ImageSize;
@@ -69,6 +84,7 @@ BMP_ExtractImageData(uint8* DataInput, uint8** DataOutput,
 				//ImageData[Index + 3] = DataInput[Index + PixelArrayOffset + 3];
 				// NOTE: Ignore alpha byte in 32bit bmp for now since alpha is not 
 				// being used in bitmaps.
+				
 			}
 
 			*DataOutput = ImageData;

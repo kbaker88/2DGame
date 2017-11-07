@@ -131,6 +131,9 @@
     <ClInclude Include="platform_layer.h" />
     <ClInclude Include="shaders.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="OpenGLNotes.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
