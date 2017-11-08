@@ -2,7 +2,6 @@
 
 #define WINDOWS_TYPE 16973 // 0x42 0x4D
 
-
 void
 BMP_ExtractImageData(uint8* DataInput, uint8** DataOutput,
 	uint32* ImgWidth, uint32* ImgHeight, uint8* BytesPerPixel)
@@ -53,38 +52,30 @@ BMP_ExtractImageData(uint8* DataInput, uint8** DataOutput,
 		uint32 NumberOfImportantColors = (DataInput[50]) | (DataInput[51] << 8) |
 			(DataInput[52] << 16) | (DataInput[53] << 24);
 
+		uint32 BytesPerRow = ( (BitsPerPixel * *ImgWidth + 31) / 32 ) * 4;
+
 		if ((CompressionMethod == 0) &&
 			(NumberOfColorsInPalette == 0))
 		{
 
-			uint32 RowSize = ((BitsPerPixel * *ImgWidth + 31) / 32);
-			RowSize *= 4;
-
 			uint8* ImageData = new uint8[ImageSize]{};
-			//for (uint32 Row = 0; Row < *ImgHeight; Row++)
-			//{
-			//	for (uint32 Index = 0; Index < RowSize; Index++)
-			//	{
-			//		ImageData[Index + 0] = DataInput[Index + PixelArrayOffset + 2];
-			//		ImageData[Index + 1] = DataInput[Index + PixelArrayOffset + 1];
-			//		ImageData[Index + 2] = DataInput[Index + PixelArrayOffset + 0];
-			//		//ImageData[Index + 3] = DataInput[Index + PixelArrayOffset + 3];
-			//		// NOTE: Ignore alpha byte in 32bit bmp for now since alpha is not 
-			//		// being used in bitmaps.
-			//	}
-			//}
 
-			for (uint32 Index = 0;
-				Index < ImageSize;
-				Index += *BytesPerPixel)
+			uint32 ImgDataIndex = 0;
+			uint32 PaddingOffset = BytesPerRow - (*ImgWidth * *BytesPerPixel);
+			for (uint32 HeightIndex = 0;
+				HeightIndex < *ImgHeight;
+				HeightIndex++)
 			{
-				ImageData[Index + 0] = DataInput[Index + PixelArrayOffset + 2];
-				ImageData[Index + 1] = DataInput[Index + PixelArrayOffset + 1];
-				ImageData[Index + 2] = DataInput[Index + PixelArrayOffset + 0];
-				//ImageData[Index + 3] = DataInput[Index + PixelArrayOffset + 3];
-				// NOTE: Ignore alpha byte in 32bit bmp for now since alpha is not 
-				// being used in bitmaps.
-				
+				for (uint32 RowIndex = 0;
+					RowIndex < BytesPerRow;
+					RowIndex += *BytesPerPixel)
+				{
+					ImageData[ImgDataIndex + 0] = DataInput[(HeightIndex * BytesPerRow) + RowIndex + PixelArrayOffset + 2];
+					ImageData[ImgDataIndex + 1] = DataInput[(HeightIndex * BytesPerRow) + RowIndex + PixelArrayOffset + 1];
+					ImageData[ImgDataIndex + 2] = DataInput[(HeightIndex * BytesPerRow) + RowIndex + PixelArrayOffset + 0];
+					ImgDataIndex += *BytesPerPixel;
+				}
+				PixelArrayOffset += PaddingOffset;
 			}
 
 			*DataOutput = ImageData;

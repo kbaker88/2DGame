@@ -204,8 +204,6 @@ Render_CreateTexture()
 	for (uint32 Index = 0; Index < 1; Index++)
 	{
 
-		//glCreateTextures(GL_TEXTURE_2D, 1, &TextureIDs[Index]);
-
 #if DEBUG_MODE
 		if (!Platform_DoesFileExist(ImageFileName[Index]))
 		{
@@ -246,8 +244,6 @@ Render_CreateTexture()
 			GL_NEAREST);
 		glTextureParameteri(TextureIDs[Index], GL_TEXTURE_MAG_FILTER,
 			GL_NEAREST);
-
-	}
 
 #else
 		glGenTextures(1, &TextureIDs[0]);

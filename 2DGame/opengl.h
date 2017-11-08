@@ -3,7 +3,7 @@
 
 #include <gl\gl.h>
 
-#define OPENGL_4_5 0
+#define OPENGL_4_5 1
 
 typedef ptrdiff_t GLintptr;
 typedef ptrdiff_t GLsizeiptr;
