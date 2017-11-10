@@ -19,7 +19,7 @@ Game_Main()
 	// NOTE: Platform_Loop() calls Game_Loop() internally
 	int32 Message = Platform_Loop();
 
-	Render_PracticeCleanup();
+	TestZone_Cleanup();
 	Platform_Cleanup();
 
 	return Message;
@@ -28,17 +28,26 @@ Game_Main()
 void
 Game_Initialization()
 {
-	Render_CompileShaders();
-	Render_CreateRectangle();
-	Render_CreateTexture();
+
 }
+
+static bool T_ZoneLoaded = false;
 
 void
 Game_Loop()
 {
 	int64 LastCounter = Platform_GetCPUTimer();
+	Render_ClearScreen();
 
-	Render_PracticeDraw();
+	if (T_ZoneLoaded == false)
+	{
+		TestZone_Load();
+		T_ZoneLoaded = true;
+	}
+	else
+	{
+		TestZone_Loop();
+	}
 
 	// NOTE: Cap at 60FPS
 	int64 CounterElapsed = Platform_GetCPUTimer() - LastCounter;

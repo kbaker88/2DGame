@@ -33,6 +33,18 @@
     <ClCompile Include="math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test_zone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="asset_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game_layer.h">
@@ -54,6 +66,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test_zone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="asset_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
