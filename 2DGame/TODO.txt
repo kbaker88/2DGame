@@ -1,0 +1,7 @@
+
+
+// Order of things to work on
+
+1 - Movement
+2 - Collision
+3 - Menu

@@ -1,13 +1,7 @@
-﻿  win32_layer.cpp
-  test_zone.cpp
-  render_layer.cpp
-  opengl.cpp
-  model_system.cpp
-  math.cpp
-  game_layer.cpp
-  camera_system.cpp
-  bmp.cpp
-  asset_system.cpp
+﻿  test_zone.cpp
   Generating Code...
+  Skipping... (no relevant changes detected)
+  win32_layer.cpp
+  game_layer.cpp
   2DGame.vcxproj -> C:\Users\Kevin\Documents\GitHub\2DGame\x64\Debug\2DGame.exe
   2DGame.vcxproj -> C:\Users\Kevin\Documents\GitHub\2DGame\x64\Debug\2DGame.pdb (Partial PDB)

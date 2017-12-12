@@ -91,7 +91,7 @@ Platform_Initialize(int32 WindowWidth, int32 WindowHeight)
 #if DEBUG_MODE
 	if (Window == 0)
 	{
-		MessageBox(0, "Window Creation Failed!", "Error!",
+		MessageBox(0, "Window Creation Failed!", "Error!", 
 			MB_ICONEXCLAMATION | MB_OK);
 	}
 #endif

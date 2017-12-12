@@ -123,8 +123,8 @@
     <ClCompile Include="model_system.cpp" />
     <ClCompile Include="opengl.cpp" />
     <ClCompile Include="render_layer.cpp" />
-    <ClCompile Include="test_zone.cpp" />
     <ClCompile Include="win32_layer.cpp" />
+    <ClCompile Include="zone_1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="asset_system.h" />
@@ -137,10 +137,11 @@
     <ClInclude Include="render_layer.h" />
     <ClInclude Include="platform_layer.h" />
     <ClInclude Include="shaders.h" />
-    <ClInclude Include="test_zone.h" />
+    <ClInclude Include="zone_1.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="OpenGLNotes.txt" />
+    <Text Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
